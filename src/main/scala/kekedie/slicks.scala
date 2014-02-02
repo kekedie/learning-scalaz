@@ -1,0 +1,5 @@
+package kekedie
+
+object slicks {
+
+}
