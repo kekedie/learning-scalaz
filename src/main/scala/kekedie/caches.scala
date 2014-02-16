@@ -12,13 +12,13 @@ object caches {
     def update(key: K, value: Timestamped[V]): Cache[K, V] = Cache(stats + (key -> value))
   }
 
+  trait CacheLoader[A] {
+    def load: A
+  }
+
   trait Caching {
     type Key
     type Value
-
-    trait CacheLoader[A] {
-      def load: Value
-    }
 
     implicit val cacheMonoid = new scalaz.Monoid[Cache[Key, Value]] {
       override def zero = Cache(Map.empty[Key, Timestamped[Value]])
@@ -27,7 +27,7 @@ object caches {
 
     def ttl: Long
 
-    def getCacheState[A: CacheLoader](id: Key) = {
+    def getCacheState(id: Key)(implicit loader: CacheLoader[Value]) = {
       for {
         checkedState <- checkCacheState(id)
         state <- checkedState.cata(State.state[Cache[Key, Value], Value], refresh(id))
@@ -45,8 +45,8 @@ object caches {
     private def stale(ts: Long): Boolean =
       System.currentTimeMillis - ts > ttl
 
-    private def refresh[A: CacheLoader](id: Key): State[Cache[Key, Value], Value] = for {
-      state <- State.state(implicitly[CacheLoader[A]].load)
+    private def refresh(id: Key)(implicit loader: CacheLoader[Value]): State[Cache[Key, Value], Value] = for {
+      state <- State.state(loader.load)
       t = Timestamped(state, System.currentTimeMillis)
       _ <- State.modify[Cache[Key, Value]] { _.update(id, t) }
     } yield state

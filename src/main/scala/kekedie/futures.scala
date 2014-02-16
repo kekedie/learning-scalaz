@@ -3,8 +3,8 @@ package kekedie
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
-import scalaz._
 import scalaz.Scalaz._
+import scalaz.contrib.std._
 
 object futures {
 
@@ -32,11 +32,9 @@ object futures {
 }
 
 object FutureApplicative extends App {
+
   import futures._
-  implicit val fm = new Monad[Future] {
-    def bind[A, B](fa: Future[A])(f: (A) => Future[B]): Future[B] = fa.flatMap(f)
-    def point[A](a: => A): Future[A] = future(a)
-  }
+
   val ap = (name("han") |@| age(34) |@| sex(Male)) {
     (n, a, s) => s"$n, $a, $s"
   }
