@@ -9,6 +9,7 @@ libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-effect" % scalazVersion,
   "org.scalaz" %% "scalaz-typelevel" % scalazVersion,
   "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion % "test",
+  "org.specs2" %% "specs2" % "2.3.8" % "test",
   "org.typelevel" %% "scalaz-contrib-210" % "0.1.5",
   "com.typesafe.slick" %% "slick" % slickVersion,
   "mysql" % "mysql-connector-java" % "5.1.26"
