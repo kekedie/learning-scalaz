@@ -12,7 +12,8 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2" % "2.3.8" % "test",
   "org.typelevel" %% "scalaz-contrib-210" % "0.1.5",
   "com.typesafe.slick" %% "slick" % slickVersion,
-  "mysql" % "mysql-connector-java" % "5.1.26"
+  "mysql" % "mysql-connector-java" % "5.1.26",
+  "com.jsuereth" %% "scala-arm" % "1.3"
 )
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-language:higherKinds", "-language:implicitConversions")
