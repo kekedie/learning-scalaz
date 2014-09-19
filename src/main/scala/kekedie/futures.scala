@@ -4,7 +4,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 import scalaz.Scalaz._
-import scalaz.contrib.std._
 
 object futures {
 
@@ -12,18 +11,18 @@ object futures {
   case object Male extends Sex
   case object Female extends Sex
 
-  def name(name: String) = future {
+  def name(name: String) = Future {
     println(s"name: $name")
     name
   }
 
-  def age(age: Int) = future {
+  def age(age: Int) = Future {
     println(s"age: $age")
     Thread.sleep(1000L)
     age
   }
 
-  def sex(sex: Sex) = future {
+  def sex(sex: Sex) = Future {
     println(s"sex: $sex")
     Thread.sleep(2000L)
     sex
